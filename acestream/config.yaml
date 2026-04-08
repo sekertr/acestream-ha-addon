@@ -8,6 +8,7 @@ arch:
 homeassistant_api: false
 hassio_api: false
 auth_api: false
+docker_api: true
 ingress: true
 ingress_port: 6878
 ingress_stream: true
