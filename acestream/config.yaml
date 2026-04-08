@@ -1,0 +1,28 @@
+name: "Acestream Proxy"
+description: "Acestream HTTP proxy for Home Assistant. Streams acestream content over HTTP via /ace/getstream?id=<content_id>"
+version: "1.0.0"
+slug: "acestream"
+init: false
+arch:
+  - aarch64
+homeassistant_api: false
+hassio_api: false
+auth_api: false
+ingress: true
+ingress_port: 6878
+ingress_stream: true
+panel_icon: "mdi:play-network"
+panel_title: "Acestream"
+ports:
+  6878/tcp: 6878
+ports_description:
+  6878/tcp: "Acestream HTTP proxy port"
+map:
+  - config:rw
+options:
+  acestream_image: "jopsis/acestream"
+  log_level: "info"
+schema:
+  acestream_image: "str"
+  log_level: "list(trace|debug|info|notice|warning|error|fatal)"
+image: "ghcr.io/sekertr/acestream-ha-addon/acestream-proxy-{arch}"

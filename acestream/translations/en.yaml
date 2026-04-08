@@ -1,0 +1,12 @@
+{
+  "configuration": {
+    "acestream_image": {
+      "name": "Acestream Docker Image",
+      "description": "The Docker Hub image to use for Acestream engine. Default: jopsis/acestream"
+    },
+    "log_level": {
+      "name": "Log Level",
+      "description": "Log verbosity level for the addon"
+    }
+  }
+}
