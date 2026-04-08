@@ -20,15 +20,23 @@ bashio::log.info "Log level: ${LOG_LEVEL}"
 # ---------------------------------------------------------------------------
 if [ ! -S /var/run/docker.sock ]; then
     bashio::log.fatal "Docker socket not found at /var/run/docker.sock"
-    bashio::log.fatal "Please make sure the addon has access to Docker socket."
-    bashio::log.fatal "You may need to run: chmod 666 /var/run/docker.sock on your host"
     exit 1
 fi
 
-bashio::log.info "Docker socket found. Checking Docker availability..."
+bashio::log.info "Docker socket found. Fixing permissions..."
+
+# Try to fix Docker socket permissions automatically
+# HA OS has a read-only filesystem so we use nsenter to reach the host
+if ! nsenter -t 1 -m -u -i -n -p -- chmod 666 /var/run/docker.sock 2>/dev/null; then
+    # Fallback: try direct chmod (works if already have permission)
+    chmod 666 /var/run/docker.sock 2>/dev/null || true
+fi
+
+bashio::log.info "Checking Docker availability..."
 
 if ! docker info > /dev/null 2>&1; then
-    bashio::log.fatal "Cannot connect to Docker daemon. Check Docker socket permissions."
+    bashio::log.fatal "Cannot connect to Docker daemon!"
+    bashio::log.fatal "Try running in SSH: nsenter -t 1 -m -u -i -n -p -- chmod 666 /var/run/docker.sock"
     exit 1
 fi
 
