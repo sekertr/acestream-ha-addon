@@ -1,6 +1,6 @@
 name: "Acestream Proxy"
 description: "Acestream HTTP proxy for Home Assistant. Streams acestream content over HTTP via /ace/getstream?id=<content_id>"
-version: "1.0.0"
+version: "1.0.1"
 slug: "acestream"
 init: false
 arch:
